@@ -10,6 +10,12 @@ app.use("/users", usersRouter);
 app.use("/tasks", tasksRouter);
 const port = process.env.PORT || 3001;
 const db_url = process.env.DB_URI;
+app.use((err, req, res, next) => {
+    if (err) {
+        return res.status(400).send(err.message);
+    }
+    return res.status(404).send("NOT FOUND");
+});
 app.listen(port, async () => {
     try {
         await mongoose.connect(db_url);
